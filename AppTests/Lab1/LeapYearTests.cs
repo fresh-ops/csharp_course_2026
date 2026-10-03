@@ -10,6 +10,8 @@ public class LeapYearTests
     [TestCase(2025, false)]
     [TestCase(2026, false)]
     [TestCase(2027, false)]
+    [TestCase(2020, true)]
+    [TestCase(2019, false)]
     public void TestPasses_When_Result_Correct(int year, bool expected)
     {
         var actual = LeapYear.IsLeapYear(year);
