@@ -27,7 +27,6 @@ public class Frequency
 
     private static List<TailedString> GetTailedNGrams(string inputString)
     {
-
         var tailedNGrams = new List<TailedString>();
         var sentences = inputString.Split('.', StringSplitOptions.RemoveEmptyEntries);
 
