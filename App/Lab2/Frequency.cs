@@ -4,67 +4,74 @@ public class Frequency
 {
     public static Dictionary<string, string> GetMostFrequentNGrams(string inputString)
     {
-        var tailedNGrams = GetTailedNGrams(inputString.ToLower());
-        var comparer = Comparer<CountedString>.Create(
-            (a, b) => a.Count == b.Count
-                ? -string.CompareOrdinal(a.Value, b.Value)
-                : a.Count - b.Count
-        );
+        var nGramTails = GetNGramTails(inputString.ToLower());
+        var mostFrequentNGrams = new Dictionary<string, string>();
 
-        return tailedNGrams
-            .GroupBy(nGram => nGram.Head)
-            .ToDictionary(
-                nGram => nGram.Key,
-                nGram => nGram
-                  .GroupBy(tail => tail.Tail)
-                  .MaxBy(
-                      tail => new CountedString { Value = tail.Key, Count = tail.Count() },
-                      comparer
-                  )
-                  .Key
+        foreach (var (head, tails) in nGramTails)
+        {
+            mostFrequentNGrams.Add(
+                head,
+                GetMostFrequentString(tails)
             );
+        }
+
+        return mostFrequentNGrams;
     }
 
-    private static List<TailedString> GetTailedNGrams(string inputString)
+    private static Dictionary<string, List<string>> GetNGramTails(string inputString)
     {
-        var tailedNGrams = new List<TailedString>();
-        var sentences = inputString.Split('.', StringSplitOptions.RemoveEmptyEntries);
+        var nGramTails = new Dictionary<string, List<string>>();
 
+        var sentences = inputString.Split(".", StringSplitOptions.RemoveEmptyEntries);
         foreach (var sentence in sentences)
         {
             var words = sentence.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
             for (var i = 0; i + 1 < words.Length; i++)
             {
-                tailedNGrams.Add(new TailedString
+                if (!nGramTails.ContainsKey(words[i]))
                 {
-                    Head = words[i],
-                    Tail = words[i + 1]
-                });
+                    nGramTails.Add(words[i], new List<string>());
+                }
+
+                nGramTails[words[i]].Add(words[i + 1]);
 
                 if (i + 2 < words.Length)
                 {
-                    tailedNGrams.Add(new TailedString
+                    var trigramHead = $"{words[i]} {words[i + 1]}";
+                    if (!nGramTails.ContainsKey(trigramHead))
                     {
-                        Head = $"{words[i]} {words[i + 1]}",
-                        Tail = words[i + 2]
-                    });
+                        nGramTails.Add(trigramHead, new List<string>());
+                    }
+
+                    nGramTails[trigramHead].Add(words[i + 2]);
                 }
             }
         }
 
-        return tailedNGrams;
+        return nGramTails;
     }
 
-    private struct TailedString
+    private static string GetMostFrequentString(List<string> strings)
     {
-        public string Head { get; init; }
-        public string Tail { get; init; }
-    }
+        var occurrenceCount = new Dictionary<string, int>();
+        string mostFrequentString = null;
+        var maxOccurrenceCount = -1;
 
-    private struct CountedString
-    {
-        public string Value { get; init; }
-        public int Count { get; init; }
+        foreach (var str in strings)
+        {
+            occurrenceCount.TryAdd(str, 0);
+            occurrenceCount[str]++;
+            if (maxOccurrenceCount < occurrenceCount[str]
+                || (maxOccurrenceCount == occurrenceCount[str]
+                    && string.CompareOrdinal(str, mostFrequentString) < 0
+                )
+            )
+            {
+                mostFrequentString = str;
+                maxOccurrenceCount = occurrenceCount[str];
+            }
+        }
+
+        return mostFrequentString;
     }
 }
