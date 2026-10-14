@@ -5,14 +5,17 @@ using System.Text.RegularExpressions;
 
 public class LogAggregator
 {
-    private const string s_LogFormatPattern =
-        @"^(?<Timestamp>\[\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\])"
-        + @"\s"
-        + @"(?<TraceId>\[.+\])"
-        + @"\s"
-        + @"(?<ServiceName>.+)"
-        + @":\s"
-        + @"(?<Message>.+)$";
+    private const string s_LogFormatPattern = """
+        ^                                                      # Начало строки
+        (?<Timestamp>\[\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\]) # Временная метка [YYYY-MM-dd HH:mm:ss]
+        \s
+        (?<TraceId>\[[^\]]+\])                                 # Идентификатор трассы
+        \s
+        (?<ServiceName>[^:]+)                                  # Имя сервиса
+        :\s
+        (?<Message>.+)                                         # Сообщение сервиса
+        $                                                      # Конец строки
+        """;
     private const int s_TimestampIndex = 0;
     private const int s_TraceIdIndex = 1;
     private const int s_ServiceNameIndex = 2;
@@ -56,7 +59,7 @@ public class LogAggregator
 
     private static List<string[]> ParseLogs(string[] logLines)
     {
-        var format = new Regex(s_LogFormatPattern);
+        var format = new Regex(s_LogFormatPattern, RegexOptions.IgnorePatternWhitespace);
         var parsedLogs = new List<string[]>();
 
         foreach (var log in logLines)
