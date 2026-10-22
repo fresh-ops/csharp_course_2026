@@ -9,10 +9,10 @@ public class Frequency
 
         foreach (var (head, tails) in nGramTails)
         {
-            mostFrequentNGrams.Add(
-                head,
-                GetMostFrequentString(tails)
-            );
+            if (TryGetMostFrequentString(tails, out var mostFrequentTail))
+            {
+                mostFrequentNGrams.Add(head, mostFrequentTail);
+            }
         }
 
         return mostFrequentNGrams;
@@ -51,10 +51,11 @@ public class Frequency
         return nGramTails;
     }
 
-    private static string GetMostFrequentString(List<string> strings)
+    private static bool TryGetMostFrequentString(List<string> strings, out string mostFrequentString)
     {
+        mostFrequentString = null;
+
         var occurrenceCount = new Dictionary<string, int>();
-        string mostFrequentString = null;
         var maxOccurrenceCount = -1;
 
         foreach (var str in strings)
@@ -72,6 +73,6 @@ public class Frequency
             }
         }
 
-        return mostFrequentString;
+        return maxOccurrenceCount > 0;
     }
 }
