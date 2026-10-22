@@ -62,9 +62,9 @@ public class Frequency
         {
             occurrenceCount.TryAdd(str, 0);
             occurrenceCount[str]++;
-            if (maxOccurrenceCount < occurrenceCount[str]
-                || (maxOccurrenceCount == occurrenceCount[str]
-                    && string.CompareOrdinal(str, mostFrequentString) < 0
+            if (ShouldUpdateMostFrequentString(
+                  str, occurrenceCount[str],
+                  mostFrequentString, maxOccurrenceCount
                 )
             )
             {
@@ -74,5 +74,25 @@ public class Frequency
         }
 
         return maxOccurrenceCount > 0;
+    }
+
+    private static bool ShouldUpdateMostFrequentString(
+        string currentString,
+        int currentOccurrence,
+        string mostFrequentString,
+        int maxOccurrenceCount
+    )
+    {
+        if (mostFrequentString == null)
+        {
+            return true;
+        }
+
+        if (maxOccurrenceCount == currentOccurrence)
+        {
+            return string.CompareOrdinal(currentString, mostFrequentString) < 0;
+        }
+
+        return maxOccurrenceCount < currentOccurrence;
     }
 }
