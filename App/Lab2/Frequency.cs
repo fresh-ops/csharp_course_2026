@@ -60,16 +60,16 @@ public class Frequency
 
         foreach (var str in strings)
         {
-            occurrenceCount.TryAdd(str, 0);
-            occurrenceCount[str]++;
+            var count = occurrenceCount.TryGetValue(str, out var occurrence) ? occurrence : 0;
+            occurrenceCount[str] = ++count;
             if (ShouldUpdateMostFrequentString(
-                  str, occurrenceCount[str],
+                  str, count,
                   mostFrequentString, maxOccurrenceCount
                 )
             )
             {
                 mostFrequentString = str;
-                maxOccurrenceCount = occurrenceCount[str];
+                maxOccurrenceCount = count;
             }
         }
 
