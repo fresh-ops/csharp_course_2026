@@ -1,21 +1,10 @@
 namespace App.Lab2;
 
+using System.Globalization;
 using System.Text;
-using System.Text.RegularExpressions;
 
 public class LogAggregator
 {
-    private const string s_LogFormatPattern = """
-        ^                                                      # Начало строки
-        (?<Timestamp>\[\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}\]) # Временная метка [YYYY-MM-dd HH:mm:ss]
-        \s
-        (?<TraceId>\[[^\]]+\])                                 # Идентификатор трассы
-        \s
-        (?<ServiceName>[^:]+)                                  # Имя сервиса
-        :\s
-        (?<Message>.+)                                         # Сообщение сервиса
-        $                                                      # Конец строки
-        """;
     private const int s_TimestampIndex = 0;
     private const int s_TraceIdIndex = 1;
     private const int s_ServiceNameIndex = 2;
@@ -42,7 +31,7 @@ public class LogAggregator
             foreach (var log in logs)
             {
                 builder
-                  .Append(log[s_TimestampIndex]).Append(" ")
+                  .Append("[").Append(log[s_TimestampIndex]).Append("] ")
                   .Append(log[s_ServiceNameIndex]).Append(": ")
                   .Append(log[s_MessageIndex]).Append("\n");
             }
@@ -59,25 +48,84 @@ public class LogAggregator
 
     private static List<string[]> ParseLogs(string[] logLines)
     {
-        var format = new Regex(s_LogFormatPattern, RegexOptions.IgnorePatternWhitespace);
         var parsedLogs = new List<string[]>();
 
         foreach (var log in logLines)
         {
-            if (log == null) continue;
-            var match = format.Match(log);
-            if (match.Success)
+            if (TryParseLogLine(log, out var parsed))
             {
-                parsedLogs.Add(new[] {
-                    match.Groups["Timestamp"].ToString(),
-                    match.Groups["TraceId"].ToString(),
-                    match.Groups["ServiceName"].ToString(),
-                    match.Groups["Message"].ToString()
-                });
+                parsedLogs.Add(parsed);
             }
         }
 
         return parsedLogs;
+    }
+
+    public static bool TryParseLogLine(string line, out string[] parsedLog)
+    {
+        parsedLog = new string[4];
+        if (line == null)
+        {
+            return false;
+        }
+
+        if (line.Length < 21 || line[0] != '[' || line[20] != ']')
+        {
+            return false;
+        }
+
+        parsedLog[s_TimestampIndex] = line.Substring(1, 19);
+        if (!DateTime.TryParseExact(
+              parsedLog[s_TimestampIndex],
+              "yyyy-MM-dd HH:mm:ss",
+              CultureInfo.InvariantCulture,
+              DateTimeStyles.None,
+              out var parsedDateTime
+        ))
+        {
+            return false;
+        }
+
+        if (line.Length < 23)
+        {
+            return false;
+        }
+        var traceIdEndIndex = line.IndexOf(']', 21);
+        if (traceIdEndIndex == -1 || line[21] != ' ' || line[22] != '[')
+        {
+            return false;
+        }
+        parsedLog[s_TraceIdIndex] = line.Substring(22, traceIdEndIndex - 22 + 1);
+
+        var serviceNameEndIndex = line.IndexOf(':', traceIdEndIndex + 1);
+        if (serviceNameEndIndex == -1 || line[traceIdEndIndex + 1] != ' ')
+        {
+            return false;
+        }
+
+        parsedLog[s_ServiceNameIndex] = line.Substring(
+            traceIdEndIndex + 2,
+            serviceNameEndIndex - traceIdEndIndex - 2
+        );
+        if (line.Length < serviceNameEndIndex + 2 || line[serviceNameEndIndex + 1] != ' ')
+        {
+            return false;
+        }
+        parsedLog[s_MessageIndex] = line.Substring(serviceNameEndIndex + 2);
+
+        return true;
+    }
+
+    private static bool TrySkipCharacter(ReadOnlySpan<char> span, char skipping, out ReadOnlySpan<char> newSpan)
+    {
+        newSpan = span;
+        if (span.Length == 0 || span[0] != skipping)
+        {
+            return false;
+        }
+
+        newSpan = span.Slice(1);
+        return true;
     }
 
     private static Dictionary<string, List<string[]>> GroupLogsByTraceId(List<string[]> logs)
