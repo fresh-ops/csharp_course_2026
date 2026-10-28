@@ -36,6 +36,18 @@ public class ShoppingCart
         _discount = 0m;
     }
 
+    public Product[] GetAllProducts()
+    {
+        var result = new Product[_products.Count];
+
+        for (var i = 0; i < _products.Count; i++)
+        {
+            result[i] = _products[i];
+        }
+
+        return result;
+    }
+
     internal void SetDiscount(decimal amount)
     {
         _discount = amount;
