@@ -3,6 +3,7 @@ namespace Marketplace.Core;
 public class ShoppingCart
 {
     private List<Product> _products = [];
+    private decimal _discount = 0m;
 
     public Product this[int index]
     {
@@ -20,7 +21,7 @@ public class ShoppingCart
                 total += product.Price;
             }
 
-            return total;
+            return total - _discount;
         }
     }
 
@@ -32,5 +33,11 @@ public class ShoppingCart
     public void Clear()
     {
         _products.Clear();
+        _discount = 0m;
+    }
+
+    internal void SetDiscount(decimal amount)
+    {
+        _discount = amount;
     }
 }
