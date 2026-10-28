@@ -1,8 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App.csproj", "{43627CB8-B153-46C2-A49D-8A760DB53DF7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppTests", "AppTests\AppTests.csproj", "{B988E016-CA98-40CB-B971-46ECD2C0EEB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Core", "Marketplace.Core\Marketplace.Core.csproj", "{17F4E88F-D2E8-40FB-B836-8ABBF30BFC33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.CoreTests", "Marketplace.CoreTests\Marketplace.CoreTests.csproj", "{B97409C2-0FA4-4574-BCBA-C3845CFF1126}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +23,13 @@ Global
 		{B988E016-CA98-40CB-B971-46ECD2C0EEB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B988E016-CA98-40CB-B971-46ECD2C0EEB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B988E016-CA98-40CB-B971-46ECD2C0EEB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17F4E88F-D2E8-40FB-B836-8ABBF30BFC33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17F4E88F-D2E8-40FB-B836-8ABBF30BFC33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17F4E88F-D2E8-40FB-B836-8ABBF30BFC33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17F4E88F-D2E8-40FB-B836-8ABBF30BFC33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B97409C2-0FA4-4574-BCBA-C3845CFF1126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B97409C2-0FA4-4574-BCBA-C3845CFF1126}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B97409C2-0FA4-4574-BCBA-C3845CFF1126}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B97409C2-0FA4-4574-BCBA-C3845CFF1126}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
