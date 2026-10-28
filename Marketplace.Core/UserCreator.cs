@@ -1,4 +1,4 @@
-namespace App.Lab3;
+namespace Marketplace.Core;
 
 using System.Security.Cryptography;
 using System.Text;
