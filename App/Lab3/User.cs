@@ -2,15 +2,33 @@ namespace App.Lab3;
 
 public class User
 {
-    private readonly Guid _id;
-    private readonly string _login;
-    private readonly string _inn;
-    private readonly DateTime _registerDate;
-
-    private string _password;
-    private string _name;
-    private string _surname;
     private string _phone;
+
+    public Guid Id { get; init; }
+    public string Login { get; init; }
+    public string Inn { get; init; }
+    public DateTime RegisterDate { get; init; }
+
+    public string Password { get; set; }
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public string Phone 
+    { 
+        get => _phone;
+        set
+        {
+            if (!TryUpdatePhone(value))
+            {
+                throw new ArgumentException("Invalid phone format");
+            }
+        } 
+    }
+
+    public User()
+    {
+        Id = Guid.NewGuid();
+        RegisterDate = DateTime.Now;
+    }
 
     public User(
         string login,
@@ -19,56 +37,23 @@ public class User
         string surname,
         string inn,
         string phone
-    )
+    ) : this()
     {
-        _login = login;
-        _password = password;
-        _name = name;
-        _surname = surname;
-        _inn = inn;
-        _phone = phone;
-
-        _id = Guid.NewGuid();
-        _registerDate = DateTime.Now;
+        Login = login;
+        Password = password;
+        Name = name;
+        Surname = surname;
+        Inn = inn;
+        Phone = phone;
     }
 
-    public Guid GetId() => _id;
-    
-    public string GetLogin() => _login;
-
-    public string GetPassword() => _password;
-
-    public void SetPassword(string newPassword)
-    {
-        _password = newPassword;
-    }
-
-    public string GetName() => _name;
-
-    public void SetName(string newName)
-    {
-        _name = newName;
-    }
-
-    public string GetSurname() => _surname;
-
-    public void SetSurname(string newSurname)
-    {
-        _surname = newSurname;
-    }
-
-    public string GetInn() => _inn;
-
-    public string GetPhone() => _phone;
-
-    public DateTime GetRegisterDate() => _registerDate;
 
     public string GetUserFullName()
     {
-        return $"{_name} {_surname}";
+        return $"{Name} {Surname}";
     }
 
-    public bool TryUpdatePhone(string phone)
+    private bool TryUpdatePhone(string phone)
     {
         if (!IsPhoneValid(phone))
         {

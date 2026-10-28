@@ -4,40 +4,46 @@ using App.Lab3;
 
 public class UserTests
 {
-    [TestCase("Petr", "Petrov")]
-    public void GetUserFullName_ReturnsCombinedName_WhenUserHasBothNameAndSurname(
-        string name,
-        string surname
-    )
+    [Test]
+    public void GetUserFullName_ReturnsCombinedName_WhenUserHasBothNameAndSurname()
     {
-        var user = new User(
-            "user",
-            "password",
-            name,
-            surname,
-            "111111111111",
-            "9996669966"
-        );
+        var name = "Petr";
+        var surname = "Petrov";
+        var user = new User()
+        {
+            Name = name,
+            Surname = surname,
+        };
 
         Assert.That(user.GetUserFullName(), Is.EqualTo($"{name} {surname}"));
     }
 
-    [TestCase("8005553535", ExpectedResult = true, TestName = "{m} -> Accepts valid format")]
-    [TestCase("123abc+-()", ExpectedResult = false, TestName = "{m} -> Rejects non-digit characters")]
-    [TestCase("123456789", ExpectedResult = false, TestName = "{m} -> Rejects too short phone")]
-    [TestCase("12345678901", ExpectedResult = false, TestName = "{m} -> Rejects too long phone")]
-    [TestCase(null, ExpectedResult = false, TestName = "{m} -> Rejects null")]
-    public bool TryUpdatePhone_ValidatesPhoneFormat(string? newPhone)
+    [Test]
+    public void Phone_AcceptsValidFormat()
     {
-        var user = new User(
-            "user",
-            "password",
-            "name",
-            "surname",
-            "111111111111",
-            "9996669966"
-        );
+        var phone = "8005553535";
+        var user = new User();
+        user.Phone = phone;
 
-        return user.TryUpdatePhone(newPhone);
+        Assert.That(user.Phone, Is.EqualTo(phone));
+    }
+
+    [TestCase("123abc+-()", TestName = "{m} -> Non-digit characters")]
+    [TestCase("123456789", TestName = "{m} -> Too short phone")]
+    [TestCase("12345678901", TestName = "{m} -> Too long phone")]
+    [TestCase(null, TestName = "{m} -> Null")]
+    public void TryUpdatePhone_RejectsInvalidFormat(string? newPhone)
+    {
+        var user = new User();
+
+        try
+        {
+            user.Phone = newPhone;
+            Assert.Fail("Expected to throw System.ArgumentException");
+        }
+        catch (ArgumentException ex)
+        {
+            Assert.That(ex.Message, Does.StartWith("Invalid phone format"));
+        }
     }
 }
