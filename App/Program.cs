@@ -25,6 +25,8 @@ public static class Program
 
         user1.Phone = "9996669966";
 
+        user1.Phone = "9996669966";
+
         Console.WriteLine(user1.GetUserFullName());
         Console.WriteLine(user1.Phone);
         Console.WriteLine(user2.GetUserFullName());
