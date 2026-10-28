@@ -14,7 +14,7 @@ public class User
     public string Login { get; init; }
     public DateTime RegisterDate { get; init; }
 
-    public string Password { get; set; }
+    public byte[] PasswordHash { get; set; }
     public string Name { get; set; }
     public string Surname { get; set; }
     public string Inn { get; set; }
@@ -38,14 +38,14 @@ public class User
 
     public User(
         string login,
-        string password,
+        byte[] passwordHash,
         string name,
         string surname,
         string inn,
         string phone) : this()
     {
         Login = login;
-        Password = password;
+        PasswordHash = passwordHash;
         Name = name;
         Surname = surname;
         Inn = inn;
