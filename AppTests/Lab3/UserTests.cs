@@ -5,7 +5,7 @@ namespace AppTests.Lab3;
 public class UserTests
 {
     [TestCase("Petr", "Petrov")]
-    public void GetUserFullName_ReturnsCombinedName_WhenUserHasBothNameAndSurname(
+    public void GetUserFullName_ReturnsCombinedName(
         string name,
         string surname
     )
