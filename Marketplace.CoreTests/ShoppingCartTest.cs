@@ -10,10 +10,10 @@ public class ShoppingCartTest
         var cart = new ShoppingCart();
         var products = new Product[]
         {
-            new Product( Guid.NewGuid(), "Item 1", 100m, ProductCategory.None),
-            new Product( Guid.NewGuid(), "Item 2", 250m, ProductCategory.None),
-            new Product( Guid.NewGuid(), "Item 3", 810m, ProductCategory.None),
-            new Product( Guid.NewGuid(), "Item 4", 470m, ProductCategory.None),
+            new Product(Guid.NewGuid(), "Item 1", 100m, ProductCategory.None),
+            new Product(Guid.NewGuid(), "Item 2", 250m, ProductCategory.None),
+            new Product(Guid.NewGuid(), "Item 3", 810m, ProductCategory.None),
+            new Product(Guid.NewGuid(), "Item 4", 470m, ProductCategory.None),
         };
     
         var totalPrice = 0m;
