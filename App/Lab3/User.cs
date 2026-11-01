@@ -4,12 +4,12 @@ public class User
 {
     private readonly Guid _id;
     private readonly string _login;
-    private readonly string _inn;
     private readonly DateTime _registerDate;
 
     private string _password;
     private string _name;
     private string _surname;
+    private string _inn;
     private string _phone;
 
     public User(
@@ -33,7 +33,7 @@ public class User
     }
 
     public Guid GetId() => _id;
-    
+
     public string GetLogin() => _login;
 
     public string GetPassword() => _password;
@@ -58,6 +58,11 @@ public class User
     }
 
     public string GetInn() => _inn;
+
+    public void SetInn(string newInn)
+    {
+        _inn = newInn;
+    }
 
     public string GetPhone() => _phone;
 
@@ -85,7 +90,7 @@ public class User
         {
             return false;
         }
-        
+
         foreach (var character in phone)
         {
             if (!char.IsDigit(character))
@@ -93,7 +98,7 @@ public class User
                 return false;
             }
         }
-        
+
         return true;
     }
 }
