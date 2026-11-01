@@ -4,12 +4,12 @@ namespace AppTests.Lab3;
 
 public class UserTests
 {
-    [TestCase("Petr", "Petrov")]
+    [Test]
     public void GetUserFullName_ReturnsCombinedName(
-        string name,
-        string surname
     )
     {
+        var name = "Petr";
+        var surname = "Petrov";
         var user = new User(
             "user",
             "password",
