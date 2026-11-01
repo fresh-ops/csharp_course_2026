@@ -25,7 +25,7 @@ public class User
         _name = name;
         _surname = surname;
         _inn = inn;
-        _phone = phone;
+        TryUpdatePhone(phone);
 
         _id = Guid.NewGuid();
         _registerDate = DateTime.Now;
