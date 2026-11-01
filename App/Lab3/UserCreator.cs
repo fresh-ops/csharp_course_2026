@@ -1,7 +1,7 @@
-namespace App.Lab3;
-
 using System.Security.Cryptography;
 using System.Text;
+
+namespace App.Lab3;
 
 public static class UserCreator
 {
@@ -19,11 +19,11 @@ public static class UserCreator
             var passwordBytes = Encoding.ASCII.GetBytes(password);
 
             return new User(
-                login, 
-                md5.ComputeHash(passwordBytes), 
-                name, 
-                surname, 
-                inn, 
+                login,
+                md5.ComputeHash(passwordBytes),
+                name,
+                surname,
+                inn,
                 phone
             );
         }
