@@ -18,8 +18,7 @@ public class User
         string name,
         string surname,
         string inn,
-        string phone
-    )
+        string phone)
     {
         _login = login;
         _password = password;
