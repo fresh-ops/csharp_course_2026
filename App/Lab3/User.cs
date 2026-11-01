@@ -68,10 +68,7 @@ public class User
 
     public DateTime GetRegisterDate() => _registerDate;
 
-    public string GetUserFullName()
-    {
-        return $"{_name} {_surname}";
-    }
+    public string GetUserFullName() => $"{_name} {_surname}";
 
     public bool TryUpdatePhone(string phone)
     {
