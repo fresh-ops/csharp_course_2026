@@ -1,6 +1,6 @@
-﻿namespace App;
+﻿using App.Lab3;
 
-using App.Lab3;
+namespace App;
 
 public static class Program
 {

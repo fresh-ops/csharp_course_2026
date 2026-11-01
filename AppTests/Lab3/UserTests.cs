@@ -1,6 +1,6 @@
-namespace AppTests.Lab3;
-
 using App.Lab3;
+
+namespace AppTests.Lab3;
 
 public class UserTests
 {
