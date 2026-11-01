@@ -49,7 +49,7 @@ public class User
         Name = name;
         Surname = surname;
         Inn = inn;
-        TryUpdatePhone(phone);
+        Phone = phone;
 
         Id = Guid.NewGuid();
         RegisterDate = DateTime.Now;
