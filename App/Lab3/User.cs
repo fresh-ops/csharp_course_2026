@@ -66,10 +66,6 @@ public class User
 
     public string GetPhone() => _phone;
 
-    public DateTime GetRegisterDate() => _registerDate;
-
-    public string GetUserFullName() => $"{_name} {_surname}";
-
     public bool TryUpdatePhone(string phone)
     {
         if (!IsPhoneValid(phone))
@@ -80,6 +76,10 @@ public class User
         _phone = phone;
         return true;
     }
+
+    public DateTime GetRegisterDate() => _registerDate;
+
+    public string GetUserFullName() => $"{_name} {_surname}";
 
     private static bool IsPhoneValid(string phone)
     {
