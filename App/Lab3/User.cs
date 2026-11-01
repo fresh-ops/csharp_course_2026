@@ -126,4 +126,15 @@ public class User
         phone = sanitizedPhone;
         return true;
     }
+
+    private bool TryUpdatePhone(string phone)
+    {
+        if (!IsPhoneValid(phone))
+        {
+            return false;
+        }
+
+        _phone = phone;
+        return true;
+    }
 }
