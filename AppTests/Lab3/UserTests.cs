@@ -22,10 +22,12 @@ public class UserTests
         Assert.That(user.GetUserFullName(), Is.EqualTo($"{name} {surname}"));
     }
 
-    [TestCase("8005553535", ExpectedResult = true, TestName = "{m} -> Accepts valid format")]
+    [TestCase("8005553535", ExpectedResult = true, TestName = "{m} -> Accepts number without country code")]
+    [TestCase("+111 (999) 666-99-66", ExpectedResult = true, TestName = "{m} -> Accepts international phone number")]
+    [TestCase("111 999 666 99 66", ExpectedResult = true, TestName = "{m} -> Accepts local phone number")]
+    [TestCase("123 45 67", ExpectedResult = true, TestName = "{m} -> Accepts city number")]
     [TestCase("123abc+-()", ExpectedResult = false, TestName = "{m} -> Rejects non-digit characters")]
-    [TestCase("123456789", ExpectedResult = false, TestName = "{m} -> Rejects too short phone")]
-    [TestCase("12345678901", ExpectedResult = false, TestName = "{m} -> Rejects too long phone")]
+    [TestCase("12345678", ExpectedResult = false, TestName = "{m} -> Rejects non-standard length")]
     [TestCase(null, ExpectedResult = false, TestName = "{m} -> Rejects null")]
     public bool TryUpdatePhone_ValidatesPhoneFormat(string? newPhone)
     {
