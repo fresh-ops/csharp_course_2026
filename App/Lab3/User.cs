@@ -2,15 +2,15 @@ namespace App.Lab3;
 
 public class User
 {
-    private readonly Guid _id;
-    private readonly string _login;
-    private readonly DateTime _registerDate;
+    private readonly Guid id;
+    private readonly string login;
+    private readonly DateTime registerDate;
 
-    private string _password;
-    private string _name;
-    private string _surname;
-    private string _inn;
-    private string _phone;
+    private string password;
+    private string name;
+    private string surname;
+    private string inn;
+    private string phone;
 
     public User(
         string login,
@@ -20,65 +20,65 @@ public class User
         string inn,
         string phone)
     {
-        _login = login;
-        _password = password;
-        _name = name;
-        _surname = surname;
-        _inn = inn;
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.inn = inn;
         TryUpdatePhone(phone);
 
-        _id = Guid.NewGuid();
-        _registerDate = DateTime.Now;
+        id = Guid.NewGuid();
+        registerDate = DateTime.Now;
     }
 
-    public Guid GetId() => _id;
+    public Guid GetId() => id;
 
-    public string GetLogin() => _login;
+    public string GetLogin() => login;
 
-    public string GetPassword() => _password;
+    public string GetPassword() => password;
 
     public void SetPassword(string newPassword)
     {
-        _password = newPassword;
+        password = newPassword;
     }
 
-    public string GetName() => _name;
+    public string GetName() => name;
 
     public void SetName(string newName)
     {
-        _name = newName;
+        name = newName;
     }
 
-    public string GetSurname() => _surname;
+    public string GetSurname() => surname;
 
     public void SetSurname(string newSurname)
     {
-        _surname = newSurname;
+        this.surname = newSurname;
     }
 
-    public string GetInn() => _inn;
+    public string GetInn() => inn;
 
     public void SetInn(string newInn)
     {
-        _inn = newInn;
+        this.inn = newInn;
     }
 
-    public string GetPhone() => _phone;
+    public string GetPhone() => phone;
 
-    public bool TryUpdatePhone(string phone)
+    public bool TryUpdatePhone(string newPhone)
     {
-        if (!IsPhoneValid(phone))
+        if (!IsPhoneValid(newPhone))
         {
             return false;
         }
 
-        _phone = phone;
+        phone = newPhone;
         return true;
     }
 
-    public DateTime GetRegisterDate() => _registerDate;
+    public DateTime GetRegisterDate() => registerDate;
 
-    public string GetUserFullName() => $"{_name} {_surname}";
+    public string GetUserFullName() => $"{name} {surname}";
 
     private static bool IsPhoneValid(string phone)
     {
