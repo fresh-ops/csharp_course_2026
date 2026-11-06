@@ -8,85 +8,54 @@ public class User
     private const int FullPhoneNumberLength = 10;
     private const int CountryCodeMinLength = 1;
 
-    private readonly Guid id;
-    private readonly string login;
-    private readonly DateTime registerDate;
-
-    private string password;
-    private string name;
-    private string surname;
-    private string inn;
     private string phone;
+
+    public Guid Id { get; init; }
+    public string Login { get; init; }
+    public DateTime RegisterDate { get; init; }
+
+    public byte[] PasswordHash { get; set; }
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public string Inn { get; set; }
+    public string Phone
+    {
+        get => phone;
+        set
+        {
+            if (!TryUpdatePhone(value))
+            {
+                throw new ArgumentException("Invalid phone format");
+            }
+        }
+    }
+
+    public User()
+    {
+        Id = Guid.NewGuid();
+        RegisterDate = DateTime.Now;
+    }
 
     public User(
         string login,
-        string password,
+        byte[] passwordHash,
         string name,
         string surname,
         string inn,
-        string phone)
+        string phone) : this()
     {
-        this.login = login;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.inn = inn;
-        TryUpdatePhone(phone);
+        Login = login;
+        PasswordHash = passwordHash;
+        Name = name;
+        Surname = surname;
+        Inn = inn;
+        Phone = phone;
 
-        id = Guid.NewGuid();
-        registerDate = DateTime.Now;
+        Id = Guid.NewGuid();
+        RegisterDate = DateTime.Now;
     }
 
-    public Guid GetId() => id;
-
-    public string GetLogin() => login;
-
-    public string GetPassword() => password;
-
-    public void SetPassword(string newPassword)
-    {
-        password = newPassword;
-    }
-
-    public string GetName() => name;
-
-    public void SetName(string newName)
-    {
-        name = newName;
-    }
-
-    public string GetSurname() => surname;
-
-    public void SetSurname(string newSurname)
-    {
-        this.surname = newSurname;
-    }
-
-    public string GetInn() => inn;
-
-    public void SetInn(string newInn)
-    {
-        this.inn = newInn;
-    }
-
-    public string GetPhone() => phone;
-
-    public bool TryUpdatePhone(string newPhone)
-    {
-        var sanitizedPhone = RemoveDelimiters(newPhone);
-
-        if (!IsPhoneValid(sanitizedPhone))
-        {
-            return false;
-        }
-
-        phone = sanitizedPhone;
-        return true;
-    }
-
-    public DateTime GetRegisterDate() => registerDate;
-
-    public string GetUserFullName() => $"{name} {surname}";
+    public string GetUserFullName() => $"{Name} {Surname}";
 
     private static bool IsPhoneValid(string phone)
     {
@@ -147,4 +116,17 @@ public class User
     private static bool IsDelimiter(char character) 
         => char.IsWhiteSpace(character)
             || character is '-' or '(' or ')';
+
+    private bool TryUpdatePhone(string newPhone)
+    {
+        var sanitizedPhone = RemoveDelimiters(newPhone);
+
+        if (!IsPhoneValid(sanitizedPhone))
+        {
+            return false;
+        }
+
+        phone = sanitizedPhone;
+        return true;
+    }
 }

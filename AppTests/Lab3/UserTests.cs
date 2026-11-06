@@ -5,41 +5,46 @@ namespace AppTests.Lab3;
 public class UserTests
 {
     [Test]
-    public void GetUserFullName_ReturnsCombinedName(
-    )
+    public void GetUserFullName_ReturnsCombinedName()
     {
         var name = "Petr";
         var surname = "Petrov";
-        var user = new User(
-            "user",
-            "password",
-            name,
-            surname,
-            "111111111111",
-            "9996669966"
-        );
+        var user = new User()
+        {
+            Name = name,
+            Surname = surname,
+        };
 
         Assert.That(user.GetUserFullName(), Is.EqualTo($"{name} {surname}"));
     }
 
-    [TestCase("8005553535", ExpectedResult = true, TestName = "{m} -> Accepts number without country code")]
-    [TestCase("+111 (999) 666-99-66", ExpectedResult = true, TestName = "{m} -> Accepts international phone number")]
-    [TestCase("111 999 666 99 66", ExpectedResult = true, TestName = "{m} -> Accepts local phone number")]
-    [TestCase("123 45 67", ExpectedResult = true, TestName = "{m} -> Accepts city number")]
-    [TestCase("123abc+-()", ExpectedResult = false, TestName = "{m} -> Rejects non-digit characters")]
-    [TestCase("12345678", ExpectedResult = false, TestName = "{m} -> Rejects non-standard length")]
-    [TestCase(null, ExpectedResult = false, TestName = "{m} -> Rejects null")]
-    public bool TryUpdatePhone_ValidatesPhoneFormat(string? newPhone)
+    [TestCase("8005553535", TestName = "{m} -> Accepts number without country code")]
+    [TestCase("+111 (999) 666-99-66", TestName = "{m} -> Accepts international phone number")]
+    [TestCase("111 999 666 99 66", TestName = "{m} -> Accepts local phone number")]
+    [TestCase("123 45 67", TestName = "{m} -> Accepts city number")]
+    public void Phone_AcceptsValidFormat(string? newPhone)
     {
-        var user = new User(
-            "user",
-            "password",
-            "name",
-            "surname",
-            "111111111111",
-            "9996669966"
-        );
+        var user = new User();
+        user.Phone = newPhone;
 
-        return user.TryUpdatePhone(newPhone);
+        Assert.That(user.Phone, Is.Not.Null);
+    }
+
+    [TestCase("123abc+-()", TestName = "{m} -> Rejects non-digit characters")]
+    [TestCase("12345678", TestName = "{m} -> Rejects non-standard length")]
+    [TestCase(null, TestName = "{m} -> Rejects null")]
+    public void TryUpdatePhone_RejectsInvalidFormat(string? newPhone)
+    {
+        var user = new User();
+
+        try
+        {
+            user.Phone = newPhone;
+            Assert.Fail("Expected to throw System.ArgumentException");
+        }
+        catch (ArgumentException ex)
+        {
+            Assert.That(ex.Message, Does.StartWith("Invalid phone format"));
+        }
     }
 }
