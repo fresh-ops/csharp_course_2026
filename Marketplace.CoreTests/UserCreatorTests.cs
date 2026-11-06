@@ -1,7 +1,7 @@
-namespace AppTests.Lab3;
+namespace Marketplace.CoreTests;
 
 using System.Text;
-using App.Lab3;
+using Marketplace.Core;
 
 public class UserCreatorTests
 {

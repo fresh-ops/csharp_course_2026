@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace App.Lab3;
+namespace Marketplace.Core;
 
 public class User
 {
@@ -50,9 +50,6 @@ public class User
         Surname = surname;
         Inn = inn;
         Phone = phone;
-
-        Id = Guid.NewGuid();
-        RegisterDate = DateTime.Now;
     }
 
     public string GetUserFullName() => $"{Name} {Surname}";
