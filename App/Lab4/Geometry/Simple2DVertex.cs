@@ -10,4 +10,6 @@ public class Simple2DVertex : I2DVertex
         X = x;
         Y = y;
     }
+
+    public override string ToString() => $"(x = {X:F3}, y = {Y:F3})";
 }
