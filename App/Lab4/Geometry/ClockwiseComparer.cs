@@ -1,4 +1,4 @@
-namespace App.Lab4;
+namespace App.Lab4.Geometry;
 
 public class ClockwiseComparer : IComparer<I2DVertex>
 {
