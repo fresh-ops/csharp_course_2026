@@ -1,4 +1,4 @@
-namespace App.Lab4;
+namespace App.Lab4.Geometry;
 
 public class Triangle : IGeometry
 {

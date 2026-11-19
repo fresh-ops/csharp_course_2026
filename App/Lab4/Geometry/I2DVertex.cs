@@ -1,4 +1,4 @@
-namespace App.Lab4;
+namespace App.Lab4.Geometry;
 
 public interface I2DVertex
 {

@@ -1,6 +1,6 @@
-using App.Lab4;
+using App.Lab4.Geometry;
 
-namespace AppTests.Lab4;
+namespace AppTests.Lab4.Geometry;
 
 public class SquareTests
 {
