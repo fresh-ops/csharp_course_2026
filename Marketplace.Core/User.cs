@@ -54,6 +54,9 @@ public class User
 
     public string GetUserFullName() => $"{Name} {Surname}";
 
+    public virtual User Clone()
+        => MemberwiseClone() as User;
+
     private static bool IsPhoneValid(string phone)
     {
         if (phone == null)
