@@ -1,3 +1,4 @@
+using App.Lab4.Users.Models;
 using Marketplace.Core;
 
 namespace App.Lab4.Users;

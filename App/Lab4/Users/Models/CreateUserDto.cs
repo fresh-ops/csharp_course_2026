@@ -1,4 +1,4 @@
-namespace App.Lab4.Users;
+namespace App.Lab4.Users.Models;
 
 public sealed class CreateUserDto
 {

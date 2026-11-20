@@ -1,4 +1,5 @@
 using App.Lab4.Users;
+using App.Lab4.Users.Models;
 using Marketplace.Core;
 
 namespace AppTests.Lab4.Users;
