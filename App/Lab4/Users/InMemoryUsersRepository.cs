@@ -26,7 +26,7 @@ public class InMemoryUsersRepository : IUsersRepository
     {
         if (usersById.TryGetValue(id, out var user))
         {
-            return user;
+            return user.Clone();
         }
 
         throw new UserNotFoundException(id);
@@ -36,7 +36,7 @@ public class InMemoryUsersRepository : IUsersRepository
     {
         if (usersByLogin.TryGetValue(login, out var user))
         {
-            return user;
+            return user.Clone();
         }
 
         throw new UserNotFoundException(login);
@@ -53,8 +53,9 @@ public class InMemoryUsersRepository : IUsersRepository
             throw new UserAlreadyExistsException(user.Login);
         }
     
-        usersById[user.Id] = user;
-        usersByLogin[user.Login] = user;
+        var clone = user.Clone();
+        usersById[user.Id] = clone;
+        usersByLogin[user.Login] = clone;
     }
 
     public void Update(User user)
@@ -68,7 +69,8 @@ public class InMemoryUsersRepository : IUsersRepository
             throw new UserNotFoundException(user.Login);
         }
     
-        usersById[user.Id] = user;
-        usersByLogin[user.Login] = user;
+        var clone = user.Clone();
+        usersById[user.Id] = clone;
+        usersByLogin[user.Login] = clone;
     }
 }
